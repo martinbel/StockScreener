@@ -1,0 +1,97 @@
+ticker,description
+SPY,S&P 500 spyder
+IVV,S&P 500 Blackrock
+VOO,S&P 500 vanguard
+VTI,Total US Market
+IWM,Russel 2000
+QQQ,Nasdaq-100
+RSP,Equal weight S&P 500
+VEA,FTSE Developed markets
+IEFA,iShares Core MSCI EAFE ETF
+VWO,Vanguard FTSE Emerging Markets
+EEM,iShares MSCI Emerging Markets ETF
+EFA,iShares MSCI EAFE
+AGG,All Bonds US
+IEF,Intermediate Treasuries
+TLT,Long Term Treasuries
+GLD,Gold
+GDX,Gold Miners
+GDXJ,Junior Gold Miners
+SLV,Silver
+HYG,High Yield
+SHYG,Short term High Yield
+DIV,Dividend Stocks
+IDV,International Dividend stocks
+VNQ,Vanguard Real State
+VXX,iPath Series B S&P 500 VIX Short-Term Futures ETN
+XLE,Energy
+XLB,Basic Materials
+XLI,Industrials
+XLY,Consumer Cyclical
+XLP,Consumer Defensive
+XLV,Healthcare
+XLF,Financial Services
+XLK,Technology
+XTL,Communication Services
+XLU,Utilities
+IYR,Real Estate
+EWJ,iShares MSCI Japan ETF
+MCHI,iShares MSCI China ETF
+EWZ,iShares MSCI Brazil ETF
+EWY,iShares MSCI South Korea ETF
+EWT,iShares MSCI Taiwan ETF
+FXI,iShares China Large-Cap ETF
+INDA,iShares MSCI India ETF
+EWG,iShares MSCI Germany ETF
+EWC,iShares MSCI Canada ETF
+EWU,iShares MSCI United Kingdom ETF
+EWL,iShares MSCI Switzerland ETF
+EWH,iShares MSCI Hong Kong ETF
+EWA,iShares MSCI Australia ETF
+EWQ,iShares MSCI France ETF
+EWW,iShares MSCI Mexico ETF
+INDY,iShares India 50 ETF
+CNYA,iShares MSCI China A ETF
+KSA,iShares MSCI Saudi Arabia ETF
+EWS,iShares MSCI Singapore ETF
+ECH,iShares MSCI Chile ETF
+ERUS,iShares MSCI Russia ETF
+THD,iShares MSCI Thailand ETF
+EWP,iShares MSCI Spain ETF
+EWM,iShares MSCI Malaysia ETF
+EIDO,iShares MSCI Indonesia ETF
+EZA,iShares MSCI South Africa ETF
+EWD,iShares MSCI Sweden ETF
+HEWJ,iShares Currency Hedged MSCI Japan ETF
+EPOL,iShares MSCI Poland ETF
+EWI,iShares MSCI Italy ETF
+SMIN,iShares MSCI India Small-Cap ETF
+EWN,iShares MSCI Netherlands ETF
+TUR,iShares MSCI Turkey ETF
+ENZL,iShares MSCI New Zealand ETF
+EPHE,iShares MSCI Philippines ETF
+EDEN,iShares MSCI Denmark ETF
+EWZS,iShares MSCI Brazil Small-Cap ETF
+EIS,iShares MSCI Israel ETF
+JPXN,iShares JPX-Nikkei 400 ETF
+QAT,iShares MSCI Qatar ETF
+EPU,iShares MSCI Peru ETF
+HEWG,iShares Currency Hedged MSCI Germany ETF
+SCJ,iShares MSCI Japan Small-Cap ETF
+EWUS,iShares MSCI United Kingdom Small-Cap ETF
+EIRL,iShares MSCI Ireland ETF
+ECNS,iShares MSCI China Small-Cap ETF
+EWO,iShares MSCI Austria ETF
+UAE,iShares MSCI UAE ETF
+EFNL,iShares MSCI Finland ETF
+EWK,iShares MSCI Belgium ETF
+EWGS,iShares MSCI Germany Small-Cap ETF
+ENOR,iShares MSCI Norway ETF
+ICOL,iShares MSCI Colombia ETF
+HEWC,iShares Currency Hedged MSCI Canada ETF
+HEWU,iShares Currency Hedged MSCI United Kingdom ETF
+EWJV,iShares MSCI Japan Value ETF
+EWJE,iShares MSCI Japan Equal Weighted ETF
+USXF,iShares ESG Advanced MSCI USA ETF
+HJPX,iShares Currency Hedged JPX-Nikkei 400 ETF
+HEWW,iShares Currency Hedged MSCI Mexico ETF

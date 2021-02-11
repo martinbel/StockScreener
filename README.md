@@ -13,7 +13,9 @@ This app implements a few tools I normally use to find stocks.
 1. Download the repository and unzip it. 
 2. Install R
 3. Install R packages needed for the app. See global.R
-4. Open in RStudio and click Run App. 
+4. Run the script: jobs/get_historical_prices.R 
+This downloads the data the app needs to work faster. It will save a file in data/prices.rds
+5. Open in RStudio and click Run App. 
 
 ## Data
 
