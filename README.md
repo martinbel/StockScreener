@@ -19,7 +19,7 @@ The script: jobs/get_historical_prices.R downloads the data the app needs to wor
 
 1. Download the repository and unzip it. 
 2. Install R
-3. Install R packages needed for the app. See global.R
+3. Install R packages needed for the app. Run the install_packages.R script.
 4. Run the script: jobs/get_historical_prices.R 
 This downloads the data the app needs to work faster. It will save a file in data/prices.rds
 5. Open in RStudio and click Run App. 
