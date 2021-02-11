@@ -1,0 +1,8 @@
+
+
+*.Rproj
+*.Rhistory
+*prices.rds
+*.RData
+
+
