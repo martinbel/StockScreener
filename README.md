@@ -2,16 +2,11 @@
 
 This app implements a few tools I normally use to find stocks. 
 
-1. Performance evaluation: Select a ticker and get performance metrics in a table as output.
-2. Screener: Run a set of predefined screeners. It allows filtering the results using the available columns also. 
-3. Stop Loss: It helps define a stop-loss based on volatility using the ATR indicator. 
+[1. Performance evaluation](https://github.com/martinbel/StockScreener/blob/master/imgs/Performance.jpeg): Select a ticker and get performance metrics in a table as output.
 
-Below are some demo images of how the app looks like:
+[2. Screener](https://github.com/martinbel/StockScreener/blob/master/imgs/Screener.jpeg): Run a set of predefined screeners. It allows filtering the results using the available columns also. 
 
-[1. Performance evaluation](https://github.com/martinbel/StockScreener/imgs/Performance.jpeg)
-[2. Screener](https://github.com/martinbel/StockScreener/imgs/Screener.jpeg)
-[3. Stop Loss](https://github.com/martinbel/StockScreener/imgs/StopLoss.jpeg)
-
+[3. Stop Loss](https://github.com/martinbel/StockScreener/blob/master/imgs/StopLoss.jpeg): It helps define a stop-loss based on volatility using the ATR indicator. 
 
 ## Data
 
