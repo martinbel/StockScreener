@@ -131,7 +131,8 @@ shinyServer(function(input, output, session) {
   screener <- reactive({
     res = run_screener()$res
     screen_cols = run_screener()$screen_cols
-    res = merge(df_fund, res, by='ticker')
+    
+    res = df_fund[res, on=.(ticker)]
     res[, EY:=round(1/ev_ebit, 5)]
     
     fund_cols = c("enterprise_value", "EY","rev_growth_3y", 
