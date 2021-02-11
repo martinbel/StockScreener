@@ -6,6 +6,13 @@ This app implements a few tools I normally use to find stocks.
 2. Screener: Run a set of predefined screeners. It allows filtering the results using the available columns also. 
 3. Stop Loss: It helps define a stop-loss based on volatility using the ATR indicator. 
 
+Below are some demo images of how the app looks like:
+
+[1. Performance evaluation](https://github.com/martinbel/StockScreener/imgs/Performance.jpeg)
+[2. Screener](https://github.com/martinbel/StockScreener/imgs/Screener.jpeg)
+[3. Stop Loss](https://github.com/martinbel/StockScreener/imgs/StopLoss.jpeg)
+
+
 ## Data
 
 Price data is downloaded from yahoo-finance. For my needs I use the stocks in the Russel-3000 index. 
