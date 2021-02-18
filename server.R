@@ -46,83 +46,35 @@ shinyServer(function(input, output, session) {
   
   ### Screener
   run_screener <- reactive({
-    all_tickers = intersect(ticker_lkp[index == "iwb", ticker], names(data))
+    #all_tickers = intersect(ticker_lkp[index == "iwb", ticker], names(data))
     
     if(input$screen_strategy == "base_stats"){
-      res = lapply(all_tickers, function(ticker){
-        try(base_stats(data, ticker, trailing_days = 8*21), silent=T)
-      })
-      classes = sapply(res, function(x) class(x)[1])
-      res = res[classes == "data.table"]
-      res = unique(rbindlist(res))
-      
-      screen_cols = c("ticker", "avg_volume", "ret_period", "coef_atr", "vol_end_start")
-      res = res[, screen_cols, with=F]
-      
+      res = copy(all_screens[['res_base']])
     } else if(input$screen_strategy == "weekly_rotation"){
-      res = lapply(all_tickers, function(ticker){
-        weekly_rotation(data, ticker, n_return = 200)
-      })
-      classes = sapply(res, function(x) class(x)[1])
-      res = rbindlist(res[classes == "data.table"])
-      
-      # Filter top-10
-      res = res[rsi <= 50]     # 1. RSI lower than 50
-      res = res[avg_vol > 1]   # 2. Average volume > 1MM
-      res = res[order(-R_200)] # 3. Rank by R_200  
-      screen_cols = names(res)
-      
+      res = copy(all_screens[['res_weekly_rotation']])
     } else if(input$screen_strategy == "mean_reversion"){
-      res = lapply(all_tickers, function(ticker){
-        mean_reversion(data, ticker)
-      })
-      classes = sapply(res, function(x) class(x)[1])
-      res = rbindlist(res[classes == "data.table"])
-      
-      # Filter top-10
-      res = res[close >= sma150]   # 1. Long-Term Trend
-      if(nrow(res[adx7 >= 45 & atr10 >= 0.04 & rsi3 <= 30]) < 5){
-        res = res[atr10 >= 0.04 & rsi3 <= 30][order(rsi3)]
-      } else {
-        res = res[adx7 >= 45 & atr10 >= 0.04 & rsi3 <= 30][order(rsi3)]
-      }
-      screen_cols = names(res)
-
+      res = copy(all_screens[['res_mean_reversion']])
     } else if(input$screen_strategy == "long_trend_high_momentum"){
-      res = lapply(all_tickers, function(ticker){
-        long_trend_high_momentum(data, ticker, n_return = 200)
-      })
-      classes = sapply(res, function(x) class(x)[1])
-      res = rbindlist(res[classes == "data.table"])
-      
-      res = res[test_sma25_sma50 == TRUE & test_close_higher5 == TRUE & test_volume == TRUE]
-      set(res, j=c("test_sma25_sma50", "test_close_higher5", "test_volume"), value=NULL)
-      screen_cols = names(res)
+      res = copy(all_screens[['res_long_trend_high_momentum']])
     } else{
-      res = lapply(all_tickers, function(ticker){
-        long_trend_low_vol(data, ticker, n_return = 200)
-      })
-      classes = sapply(res, function(x) class(x)[1])
-      res = rbindlist(res[classes == "data.table"])
-      # ADV >= $50MM
-      res = res[close > sma200 & avg_volume >= 100 & 
-                  volatility %between% c(0.1, 0.4)][order(rsi4)]
-      screen_cols = names(res)
+      res = copy(all_screens[['res_long_trend_low_vol']])
     }
-    
-    if(class(res)[1] == "list"){
-      res = res[!is.na(res)]
-      res = unique(rbindlist(res))
-    }
+    screen_cols = names(res)
     
     list(res=res, screen_cols=screen_cols)
   })
   
   observeEvent(input$screen_strategy, {
-    if(input$screen_strategy == "base_stats"){
-      value = "ret_period < 0.1 & enterprise_value >= 10000 & rev_growth_3y > 0.1 & operating_margin > 0.1"
+    if(input$screen_universe %in% c("all", "iwb")){
+      query_enterprise_value = "enterprise_value >= 1000"
     } else {
-      value = "enterprise_value >= 10000 & rev_growth_3y > 0.1 & operating_margin > 0.1"
+      query_enterprise_value = "enterprise_value >= 10000"
+    }
+    
+    if(input$screen_strategy == "base_stats"){
+      value = sprintf("%s & rev_growth_3y > 0.1 & operating_margin > 0.1 & ret_period < 0.1", query_enterprise_value)
+    } else {
+      value = sprintf("%s & rev_growth_3y > 0.1 & operating_margin > 0.1", query_enterprise_value)
     }
     updateTextInput(session, "screen_dtquery", "Query", value)
   })
@@ -132,6 +84,13 @@ shinyServer(function(input, output, session) {
     res = run_screener()$res
     screen_cols = run_screener()$screen_cols
     
+    # Filter stocks based on index
+    if(input$screen_universe != "all"){
+      keep_tickers = ticker_lkp[index %in% input$screen_universe, ticker]
+      res = res[ticker %in% keep_tickers]
+    }
+    
+    # Join with fundamental data - keep order
     res = df_fund[res, on=.(ticker)]
     res[, EY:=round(1/ev_ebit, 5)]
     

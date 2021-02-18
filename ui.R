@@ -1,6 +1,9 @@
 ticker_choices = names(data)
-screen_choices = c("base_stats", "long_trend_high_momentum", 
-                   "long_trend_low_vol", "weekly_rotation", "mean_reversion")
+screen_choices = c("Base Pattern"="base_stats", 
+                   "High-Momentum"="long_trend_high_momentum", 
+                   "Low-Volatility"="long_trend_low_vol", 
+                   "Weekly-Rotation"="weekly_rotation", 
+                   "Mean Reversion Long"="mean_reversion")
 
 
 dtquery = "ret_period < 0.1 & enterprise_value >= 10000 & rev_growth_3y > 0.1 & operating_margin > 0.1 & net_margin > 0"
@@ -26,7 +29,11 @@ shinyUI(navbarPage("Trading",
       fluidRow(
         column(3, selectInput("screen_strategy", "Screener", screen_choices, 
                               selected='base_stats', selectize=TRUE)),
-        column(6, textInput("screen_dtquery", "Query", value=dtquery))
+        column(3, radioButtons("screen_universe", "Universe", 
+                               choices=c("S&P 500"='spy', "QQQ"='qqq', "Russel-1000"='iwb', 
+                                         "Russel-2000"='iwm', "Russel-3000"='all'), 
+                               selected="all")),
+        column(3, textInput("screen_dtquery", "Query", value=dtquery))
       ), 
       fluidRow(
         column(6, dataTableOutput("screen_results"))
