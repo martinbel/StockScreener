@@ -10,7 +10,25 @@ library(markdown)
 
 #library(gt)
 library(glue)
+library(stringi)
 
+prop_case <- function(s) {
+  trimws(stri_trans_totitle(gsub("_", " ", s)))
+}
+
+### Bonds Data
+dt_bonds = readRDS('data/bonds_data.rds')
+dt_bonds = dt_bonds[!is.na(price)]
+dt_bonds = dt_bonds[date == max(date)]
+
+sp_ratings = dt_bonds[, sort(unique(sp_rating))]
+moodys_ratings = dt_bonds[, sort(unique(moodys_rating))]
+
+# Clean company names
+company_list = dt_bonds[, description]
+company_list = trimws(gsub("[[:digit:]].*|[[:punct:]]", "", company_list))
+
+### Price Data
 # setwd("app/")
 data = readRDS("data/prices.rds")
 data$LOW = NULL

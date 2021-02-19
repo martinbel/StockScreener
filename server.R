@@ -64,12 +64,9 @@ shinyServer(function(input, output, session) {
     list(res=res, screen_cols=screen_cols)
   })
   
+  
   observeEvent(input$screen_strategy, {
-    if(input$screen_universe %in% c("all", "iwb")){
-      query_enterprise_value = "enterprise_value >= 1000"
-    } else {
-      query_enterprise_value = "enterprise_value >= 10000"
-    }
+    query_enterprise_value = "enterprise_value >= 1000"
     
     if(input$screen_strategy == "base_stats"){
       value = sprintf("%s & rev_growth_3y > 0.1 & operating_margin > 0.1 & ret_period < 0.1", query_enterprise_value)
@@ -107,10 +104,24 @@ shinyServer(function(input, output, session) {
     df_screener = screener()
     classes = sapply(df_screener, class)
     num_vars = names(classes[!(classes %in% c("character", "factor"))])
-
+    
+    ### Formatting of the table
+    # Percent variables
+    percent_vars = sapply(df_screener, function(x){
+      if(is.numeric(x)){
+        avg = mean(x, na.rm=T)
+        if(avg < 1) return(avg) 
+        }
+    })
+    
+    percent_vars = names(unlist(percent_vars))
+    other_num_vars = setdiff(num_vars, percent_vars)
+    
     # dom = 't',
+    #setnames(df_screener, prop_case(names(df_screener)))
     DT::datatable(df_screener, options = list(pageLength = 25)) %>%
-      formatRound(columns=num_vars, digits=3) 
+      formatPercentage(columns=percent_vars, digits=2) %>%
+      formatRound(columns=other_num_vars, digits=0)
   })
   
   
@@ -144,7 +155,58 @@ shinyServer(function(input, output, session) {
     
   })
   
+  # Allows filtering by company
+  output$bonds_description_ui <- renderUI({
+   column(3, selectInput("bonds_description", "Company Name", company_list, selected=""))
+  })
   
- 
+  bonds_table <- reactive({
+    bonds_dtquery = input$bonds_dtquery
+    bonds_description = input$bonds_description
+    
+    dt = copy(dt_bonds)
+    
+    dt = dt[sp_rating %in% input$bonds_sp_ratings
+            ][moodys_rating %in% input$bonds_moodys_ratings]
+    
+    if(bonds_description != ""){
+      dt = dt[grep(bonds_description, description)]
+    } 
+    
+    if(bonds_dtquery != ""){
+      dt = dt[eval(parse(text=bonds_dtquery))]
+    }
+    
+    keep_cols = c("description", "type", "sp_rating", "moodys_rating", "coupon", "maturity", "maturity_year",
+                  "price","ytm","ytw","current_yield")
+    
+    dt[, keep_cols, wi=F]
+  })
+  
+  
+  output$bonds_DT = renderDataTable({
+    dt = bonds_table()
+    percent_cols = c("current_yield", "coupon", "ytm", "ytw")
+    
+    DT::datatable(dt, options = list(pageLength = 10)) %>%
+      formatRound(columns=c("maturity_year", "price"), digits=2) %>%
+      formatPercentage(columns=percent_cols, digits=2)
+    
+  })
+
+  output$bonds_stats = renderDataTable({
+    dt = bonds_table()
+    percent_cols = c("current_yield", "coupon", "ytm", "ytw")
+    
+    dt_deciles = dt[, lapply(.SD, function(x) quantile(x, na.rm=T, probs=seq(0, 1, 0.1))), 
+                    .SDcols=percent_cols]
+    dt_deciles = cbind(Decile=seq(0, 1, 0.1), dt_deciles)
+    
+    DT::datatable(dt_deciles, options = list(dom = 't')) %>%
+      formatPercentage(columns=names(dt_deciles)[1], digits=0) %>%
+      formatPercentage(columns=names(dt_deciles)[-c(1)], digits=2)
+  
+  })
+  
   
 })
